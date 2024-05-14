@@ -1,0 +1,46 @@
+name: "transformer"
+
+backend: "onnxruntime"
+
+max_batch_size : 512
+
+dynamic_batching {
+    max_queue_delay_microseconds: 1000
+}
+
+input [
+  {
+    name: "input_ids"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  }
+]
+input [
+  {
+    name: "token_type_ids"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  }
+]
+input [
+  {
+    name: "attention_mask"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  }
+]
+
+output [
+  {
+    name: "classes"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  }
+]
+
+instance_group [
+    {
+      count: 2
+      kind: KIND_GPU
+    }
+]

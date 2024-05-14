@@ -1,0 +1,4 @@
+.vscode/
+**/__pycache__/
+onnx_model/
+model_repository/transformer/1/model.onnx
