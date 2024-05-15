@@ -14,9 +14,33 @@ input [
 
 output [
   {
-    name: "classes"
-    data_type: TYPE_INT64
+    name: "valid"
+    data_type: TYPE_BOOL
     dims: [ -1 ]
+  }
+]
+
+output [
+  {
+    name: "token_array"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  }
+]
+
+output [
+  {
+    name: "class_name_array"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  }
+]
+
+output [
+  {
+    name: "offset_mapping"
+    data_type: TYPE_INT64
+    dims: [ -1, 2 ]
   }
 ]
 
@@ -33,13 +57,17 @@ ensemble_scheduling {
         key: "input_ids"
         value: "input_ids"
       }
-    output_map {
+      output_map {
         key: "token_type_ids"
         value: "token_type_ids"
       }
-    output_map {
+      output_map {
         key: "attention_mask"
         value: "attention_mask"
+      }
+      output_map {
+        key: "offset_mapping"
+        value: "offset_mapping"
       }
     },
     {
@@ -60,6 +88,34 @@ ensemble_scheduling {
       output_map {
         key: "classes"
         value: "classes"
+      }
+    },
+    {
+      model_name: "postprocess"
+      model_version: 1
+      input_map {
+        key: "input_text"
+        value: "input_text"
+      }
+      input_map {
+        key: "classes"
+        value: "classes"
+      }
+      input_map {
+        key: "offset_mapping"
+        value: "offset_mapping"
+      }
+      output_map {
+        key: "valid"
+        value: "valid"
+      }
+      output_map {
+        key: "token_array"
+        value: "token_array"
+      }
+      output_map {
+        key: "class_name_array"
+        value: "class_name_array"
       }
     }
   ]

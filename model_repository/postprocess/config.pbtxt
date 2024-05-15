@@ -1,4 +1,4 @@
-name: "tokenizer"
+name: "postprocess"
 
 backend: "python"
 
@@ -12,35 +12,46 @@ input [
     }
 ]
 
-output [
+input [
   {
-    name: "input_ids"
-    data_type: TYPE_INT64
-    dims: [ -1 ]
-  }
-]
-output [
-  {
-    name: "token_type_ids"
-    data_type: TYPE_INT64
-    dims: [ -1 ]
-  }
-]
-output [
-  {
-    name: "attention_mask"
+    name: "classes"
     data_type: TYPE_INT64
     dims: [ -1 ]
   }
 ]
 
-output [
+input [
   {
     name: "offset_mapping"
     data_type: TYPE_INT64
     dims: [ -1, 2 ]
   }
 ]
+
+output [
+  {
+    name: "valid"
+    data_type: TYPE_BOOL
+    dims: [ -1 ]
+  }
+]
+
+output [
+  {
+    name: "token_array"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  }
+]
+
+output [
+  {
+    name: "class_name_array"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  }
+]
+
 
 instance_group [
     {

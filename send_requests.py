@@ -32,7 +32,10 @@ num_req = 100
 
 def func():
     client = httpclient.InferenceServerClient(url="localhost:8000")
-    output = httpclient.InferRequestedOutput("classes", binary_data=True)
+    output1 = httpclient.InferRequestedOutput("valid", binary_data=True)
+    output2 = httpclient.InferRequestedOutput("token_array", binary_data=True)
+    output3 = httpclient.InferRequestedOutput("class_name_array", binary_data=True)
+    output4 = httpclient.InferRequestedOutput("offset_mapping", binary_data=True)
 
     s = time.time()
     results = []
@@ -42,7 +45,7 @@ def func():
         inputs_0 = httpclient.InferInput("input_text", inputs_np.shape, datatype="BYTES")
         inputs_0.set_data_from_numpy(inputs_np, binary_data=True)
 
-        r = client.async_infer(model_name="ensemble_model", inputs=[inputs_0], outputs=[output])
+        r = client.async_infer(model_name="ensemble_model", inputs=[inputs_0], outputs=[output1, output2, output3, output4])
         results.append(r)
 
     for r in results:
