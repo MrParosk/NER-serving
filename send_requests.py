@@ -26,7 +26,7 @@ def get_inputs(num_samples):
 
 
 
-num_samples = 100
+num_samples = 500
 num_req = 100
 
 

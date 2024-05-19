@@ -1,11 +1,14 @@
-import triton_python_backend_utils as pb_utils
-from transformers import AutoTokenizer
+import json
 import numpy as np
+
+from transformers import AutoTokenizer
+import triton_python_backend_utils as pb_utils
 
 
 class TritonPythonModel:
     def initialize(self, args):
-        model_name = "dslim/bert-large-NER"
+        params = json.loads(args["model_config"])["parameters"]
+        model_name = params["model_name"]["string_value"]
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     def execute(self, requests):

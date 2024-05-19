@@ -11,15 +11,14 @@ import torch
 
 
 from transformers.models.bert.modeling_bert import BertForTokenClassification
-from typing import Optional, Union, Tuple
+from typing import Optional, Dict
 
 from optimum.exporters.onnx.model_configs import BertOnnxConfig
 
-from typing import Dict
 from collections import OrderedDict
 from optimum.exporters.tasks import TasksManager
 
-model_name = "dslim/bert-large-NER"
+model_name = "dslim/bert-base-NER"
 
 
 class CustomBertForTokenClassification(BertForTokenClassification):
@@ -66,7 +65,7 @@ class CustomBertOnnxConfig(BertOnnxConfig):
 def convert_to_onnx(model_name):
     #model = AutoModelForTokenClassification.from_pretrained(model_name)
     model = CustomBertForTokenClassification.from_pretrained(model_name, return_dict=False)
-    onnx_export_from_model(model, "onnx_model/", optimize="O3", device="cuda",
+    onnx_export_from_model(model, "onnx_model/", optimize="O4", device="cuda", monolith=True, opset=17,
                            task="token-classification", custom_onnx_configs={"model": CustomBertOnnxConfig(model.config)}
     )
 
@@ -134,7 +133,7 @@ def benchmark_pipeline(model_name):
 
     print(np.mean(pipe_time))
 
-#benchmark_torch(model_name)
+# benchmark_torch(model_name)
 convert_to_onnx(model_name)
 
 

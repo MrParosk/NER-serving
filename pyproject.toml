@@ -10,11 +10,12 @@ package-mode = false
 python = "^3.12"
 transformers = "^4.40.1"
 torch = "^2.3.0"
-optimum = {extras = ["exporters", "onnxruntime"], version = "^1.19.1"}
+optimum = {extras = ["exporters-gpu", "onnxruntime-gpu", "onnxruntime"], version = "^1.19.1"}
 onnxruntime-gpu = {version = "^1.17.1", source = "onnx_cuda12"}
 tritonclient = "^2.45.0"
 gevent = "^24.2.1"
 geventhttpclient = "^2.3.1"
+numba = "^0.59.1"
 
 [[tool.poetry.source]]
 name = "onnx_cuda12"

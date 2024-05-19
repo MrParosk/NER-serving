@@ -44,7 +44,14 @@ output [
 
 instance_group [
     {
-        count: 3
+        count: 4
         kind: KIND_CPU
     }
+]
+
+parameters [
+  {
+    key: "model_name"
+    value: { string_value: "dslim/bert-base-NER" }
+  }
 ]
