@@ -1,2 +1,3 @@
 onnx_model/
+benchmark_onnx_model/
 model_repository/
