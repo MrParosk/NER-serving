@@ -1,29 +1,8 @@
 import tritonclient.http as httpclient
 import numpy as np
-import random
 import time
 from concurrent.futures import ProcessPoolExecutor
-
-
-def get_inputs(num_samples):
-    choices = [
-        "Hello I'm Omar and I live in Zurich.",
-        "hello world",
-        "Erik/Palma swish",
-        "Two and a half men",
-        "Breaking bad",
-        "numpy",
-        "pandas",
-        "Me and you",
-        "Random string",
-        "hellllo"
-    ]
-
-    inputs = []
-    for _ in range(num_samples):
-        inputs.append(random.choice(choices))
-    return inputs
-
+from generate_data import get_inputs
 
 
 num_samples = 500
