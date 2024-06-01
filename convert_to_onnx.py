@@ -31,13 +31,17 @@ class CustomBertForTokenClassification(BertForTokenClassification):
         shifted_exp = torch.exp(logits - max_value)
         prob = shifted_exp / shifted_exp.sum(dim=-1, keepdims=True)
         classes = torch.argmax(prob, dim=-1)
-        return classes
+        return classes.to(torch.int32)
 
 
 register_for_onnx = TasksManager.create_register("onnx", overwrite_existing=True)
-
 @register_for_onnx("custom-bert", "token-classification")
 class CustomBertOnnxConfig(BertOnnxConfig):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Use int32 instead of int64
+        self.int_dtype = "int32"
+
     @property
     def outputs(self) -> Dict[str, Dict[int, str]]:
         """

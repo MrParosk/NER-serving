@@ -7,4 +7,4 @@ docker run --gpus=all --rm --net=host \
     -v ${PWD}/model_repository:/models \
     -v ${PWD}/scripts:/scripts \
     custom_triton:latest tritonserver \
-    --model-repository=/models --model-control-mode=explicit # poll
+    --model-repository='/models' --model-control-mode=poll

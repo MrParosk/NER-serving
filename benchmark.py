@@ -8,17 +8,17 @@ from generate_data import get_inputs
 from convert_to_onnx import CustomBertForTokenClassification
 
 model_name = "dslim/bert-base-NER"
-
+NUM_SAMPLES = 100
+NUM_TRIES = 100
 
 def benchmark_torch(model_name):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = CustomBertForTokenClassification.from_pretrained(model_name, return_dict=False)
-    #model = AutoModelForTokenClassification.from_pretrained(model_name, return_dict=False)
     model = model.to("cuda")
-    inputs = get_inputs(100)
+    inputs = get_inputs(NUM_SAMPLES)
 
     pt_time = []
-    for _ in range(100):
+    for _ in range(NUM_TRIES):
         s = time()
         ids = tokenizer(inputs, return_tensors="pt", padding=True)
         ids = ids.to("cuda")
@@ -35,10 +35,10 @@ def benchmark_onnx(model_name):
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    inputs = get_inputs(100)
+    inputs = get_inputs(NUM_SAMPLES)
 
     onnx_time = []
-    for _ in range(100):
+    for _ in range(NUM_TRIES):
         s = time()
         ids_np = tokenizer(inputs, return_tensors="pt", padding=True)
         _ = onnx_model(**ids_np)
@@ -51,12 +51,12 @@ def benchmark_pipeline(model_name):
     onnx_model = AutoModelForTokenClassification.from_pretrained(model_name)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    inputs = get_inputs(100)
+    inputs = get_inputs(NUM_SAMPLES)
 
     nlp = pipeline("ner", model=onnx_model, tokenizer=tokenizer, device="cuda")
 
     pipe_time = []
-    for _ in range(100):
+    for _ in range(NUM_TRIES):
         s = time()
         _ = nlp(inputs)
         pipe_time.append(time() - s)

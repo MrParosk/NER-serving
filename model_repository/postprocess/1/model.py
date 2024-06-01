@@ -1,8 +1,6 @@
 import numpy as np
 from numba import njit
-
 import triton_python_backend_utils as pb_utils
-from transformers import AutoTokenizer
 
 
 @njit
@@ -41,17 +39,8 @@ def convert(decoded_text, classes, offset_mapping, idx_to_class):
 
 
 class TritonPythonModel:
-    def initialize(self, args):
-        # model_name = "dslim/bert-large-NER"
-        #self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        pass
-
     def execute(self, requests):
         responses = []
-
-        # (samples, max_len)
-        # (valid, token, start, end)
-        #
 
         for request in requests:
             in_text = pb_utils.get_input_tensor_by_name(request, "input_text")
@@ -66,13 +55,13 @@ class TritonPythonModel:
 
             valid, token_array, class_name_array = convert(decoded_text, classes, offset_mapping, idx_to_class)
 
-            tensor1 = pb_utils.Tensor("valid", valid)
-            tensor2 = pb_utils.Tensor("token_array", token_array)
-            tensor3 = pb_utils.Tensor("class_name_array", class_name_array)
+            tensor_valid = pb_utils.Tensor("valid", valid)
+            tensor_token = pb_utils.Tensor("token_array", token_array)
+            tensor_class_name = pb_utils.Tensor("class_name_array", class_name_array)
 
             inference_response = pb_utils.InferenceResponse(
-                output_tensors=[tensor1, tensor2, tensor3]
+                output_tensors=[tensor_valid, tensor_token, tensor_class_name]
             )
-            
+
             responses.append(inference_response)
         return responses

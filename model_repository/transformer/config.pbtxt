@@ -11,21 +11,21 @@ dynamic_batching {
 input [
   {
     name: "input_ids"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1 ]
   }
 ]
 input [
   {
     name: "token_type_ids"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1 ]
   }
 ]
 input [
   {
     name: "attention_mask"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1 ]
   }
 ]
@@ -33,7 +33,7 @@ input [
 output [
   {
     name: "classes"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1 ]
   }
 ]

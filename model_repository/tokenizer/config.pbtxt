@@ -4,6 +4,10 @@ backend: "python"
 
 max_batch_size: 512
 
+dynamic_batching {
+    max_queue_delay_microseconds: 1000
+}
+
 input [
     {
         name: "input_text"
@@ -15,21 +19,21 @@ input [
 output [
   {
     name: "input_ids"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1 ]
   }
 ]
 output [
   {
     name: "token_type_ids"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1 ]
   }
 ]
 output [
   {
     name: "attention_mask"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1 ]
   }
 ]
@@ -37,7 +41,7 @@ output [
 output [
   {
     name: "offset_mapping"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1, 2 ]
   }
 ]

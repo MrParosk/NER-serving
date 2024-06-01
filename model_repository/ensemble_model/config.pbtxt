@@ -39,7 +39,7 @@ output [
 output [
   {
     name: "offset_mapping"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1, 2 ]
   }
 ]

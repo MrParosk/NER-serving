@@ -19,11 +19,11 @@ class TritonPythonModel:
             decoded_text = in_text.astype(str)[:,0].tolist()
 
             output = self.tokenizer(decoded_text, return_tensors="np", padding=True, return_offsets_mapping=True)
-            input_ids = output["input_ids"]
-            token_type_ids = output["token_type_ids"]
-            attention_mask = output["attention_mask"]
+            input_ids = output["input_ids"].astype(np.int32)
+            token_type_ids = output["token_type_ids"].astype(np.int32)
+            attention_mask = output["attention_mask"].astype(np.int32)
             offset_mapping = output["offset_mapping"]
-            offset_mapping = np.array(offset_mapping)
+            offset_mapping = np.array(offset_mapping).astype(np.int32)
 
             tensor1 = pb_utils.Tensor("input_ids", input_ids)
             tensor2 = pb_utils.Tensor("token_type_ids", token_type_ids)

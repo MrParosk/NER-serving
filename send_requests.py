@@ -5,8 +5,9 @@ from concurrent.futures import ProcessPoolExecutor
 from generate_data import get_inputs
 
 
-num_samples = 500
+num_samples = 100
 num_req = 100
+num_proc = 5
 
 
 def func():
@@ -33,8 +34,6 @@ def func():
     diff = time.time() - s
     return diff
 
-
-num_proc = 1
 
 res = []
 with ProcessPoolExecutor(max_workers=num_proc) as mp:

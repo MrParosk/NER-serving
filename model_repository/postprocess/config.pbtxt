@@ -15,7 +15,7 @@ input [
 input [
   {
     name: "classes"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1 ]
   }
 ]
@@ -23,7 +23,7 @@ input [
 input [
   {
     name: "offset_mapping"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [ -1, 2 ]
   }
 ]
